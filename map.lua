@@ -21,7 +21,6 @@ function drawMap()
     for col = 1, 40 do
       -- Draw tile
       local tile = map[ ((row-1)*40) + col]
-      print(tile)
       if tile > 0 then
         love.graphics.draw(tileImages[tile], x, y, 0, 1, 1)
       end
