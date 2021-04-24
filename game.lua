@@ -1,7 +1,7 @@
 require("hero")
 require("ennemis")
 require("scoreboard")
-
+require("map")
 
 playState = "play"
 
@@ -30,6 +30,7 @@ end
 function drawGame()
   
   if playState == "play" then
+    drawMap()
     drawHero()
     drawEnnemis()
   end
