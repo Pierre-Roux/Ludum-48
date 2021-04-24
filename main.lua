@@ -15,8 +15,9 @@ gameState = "Menu"
 
 function love.load()
   
-  ScreenWidth = love.graphics.getWidth()
-  ScreenHeight = love.graphics.getHeight()
+  screenWidth = love.graphics.getWidth()
+  screenHeight = love.graphics.getHeight()
+  -- Todo : set screen resolution
   
 end
 
