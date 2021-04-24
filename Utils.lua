@@ -27,3 +27,16 @@ function collide(a1, a2)
  end
  return false
 end
+function turnOneDimTableToTwoDimTable(oneDimTable, nbRows, nbCols)
+  local twoDimTable = {}
+  local row, col
+  local nbEntries = #oneDimTable
+  for row = 1, nbRows do
+    table.insert(twoDimTable, {})
+    for col = 1, nbCols do
+      print(twoDimTable[row][col])
+      twoDimTable[row][col] = oneDimTable[(row-1)*nbCols + col]
+    end
+  end
+  return twoDimTable
+end

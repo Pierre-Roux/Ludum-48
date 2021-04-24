@@ -6,6 +6,7 @@ require("map")
 playState = "play"
 
 function loadgame()
+  initMap()
   loadHero()
   loadEnnemis()
 end
