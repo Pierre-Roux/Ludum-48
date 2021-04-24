@@ -8,10 +8,11 @@ love.graphics.setDefaultFilter("nearest")
 -- Cette ligne permet de déboguer pas à pas dans ZeroBraneStudio
 if arg[#arg] == "-debug" then require("mobdebug").start() end
 
+require("utils")
 require("menu")
 require("game")
 
-gameState = "Menu"
+gameState = "Game"
 
 function love.load()
   
@@ -21,12 +22,14 @@ function love.load()
   screenHeight = love.graphics.getHeight()
   print(screenWidth, screenHeight)
   
+  loadgame()
+  
 end
 
 function love.update(dt)
 
   if gameState == "Menu" then
-    updateMenu()
+    updateMenu(dt)
   end
 
   if gameState == "Game" then
@@ -49,7 +52,8 @@ end
 
 function love.keypressed(key)
   
-  print(key)
+  keypressedGame()
+  print(dt)
   
 end
   

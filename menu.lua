@@ -1,4 +1,4 @@
-function updateMenu()
+function updateMenu(dt)
   
 end
 
