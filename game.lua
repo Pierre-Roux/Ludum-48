@@ -1,6 +1,4 @@
-GameState = "play"
-
-function updateGame()
+function updateGame(dt)
   
 end
 

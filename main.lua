@@ -23,11 +23,11 @@ end
 function love.update(dt)
 
   if gameState == "Menu" then
-
+    updateMenu()
   end
 
   if gameState == "Game" then
-    
+    updateGame(dt)
   end
 
 end
@@ -35,11 +35,11 @@ end
 function love.draw()
   
   if gameState == "Menu" then
-    
+    drawMenu()
   end
 
   if gameState == "Game" then
-    
+    drawGame()
   end
 
 end
