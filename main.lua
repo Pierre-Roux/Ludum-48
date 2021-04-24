@@ -15,9 +15,11 @@ gameState = "Menu"
 
 function love.load()
   
+  love.window.setTitle("AwesomeGame")
+  love.window.setMode(1600, 900)
   screenWidth = love.graphics.getWidth()
   screenHeight = love.graphics.getHeight()
-  -- Todo : set screen resolution
+  print(screenWidth, screenHeight)
   
 end
 
