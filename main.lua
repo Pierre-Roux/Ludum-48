@@ -11,6 +11,8 @@ if arg[#arg] == "-debug" then require("mobdebug").start() end
 require("utils")
 require("menu")
 require("game")
+require("images")
+require("sons")
 
 gameState = "Game"
 
@@ -52,8 +54,7 @@ end
 
 function love.keypressed(key)
   
-  keypressedGame()
-  print(dt)
+  keypressedGame(key)
   
 end
   
