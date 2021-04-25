@@ -1,8 +1,11 @@
 function isOnGround(entity) 
-  if (entity.y + 20) > screenHeight - 80 then
-    return true
-  else
-    return false
+  if entity.x + imgChara:getWidth() < screenWidth and entity.x - imgChara:getWidth() > 0 and entity.y + imgChara:getHeight() < screenHeight and entity.y - imgChara:getHeight() > 0 then
+    ID = twoDimMap[math.floor((entity.y + imgChara:getHeight()/2)/32)+1][math.floor(entity.x/32)+1]
+    if isSolid(ID,twoDimMap) then
+      return true
+    else
+      return false
+    end
   end
 end
 
@@ -34,6 +37,7 @@ function collide(a1, a2)
  end
  return false
 end
+
 function turnOneDimTableToTwoDimTable(oneDimTable, nbRows, nbCols)
   local twoDimTable = {}
   local row, col

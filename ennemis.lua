@@ -35,7 +35,7 @@ end
 
 function initEnnemis()
   ennemis = {}
-  createDrone(1000,10)
+  --createDrone(1000,10)
   --createDrone(800,200)
   --createDrone(1130,300)
 end

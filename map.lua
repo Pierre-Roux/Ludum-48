@@ -1,8 +1,8 @@
 -- Niveau
 map0 = require("maps/panel0")
 map = map0.layers[1].data
-
 twoDimMap = {}
+tileTypes = {}
 
 TILE_HEIGHT = 32
 TILE_WIDTH = 32
@@ -16,6 +16,8 @@ end
 
 function initMap()
   twoDimMap = turnOneDimTableToTwoDimTable(map, 23, 40)
+  tileTypes[0] = "air"
+  tileTypes[2] = "sol"
 end
 
 function drawMap()
@@ -37,8 +39,4 @@ function drawMap()
     x = 0
     y = y + TILE_HEIGHT
   end
-end
-
-function love.keypressed(key)
-  print(key)
 end

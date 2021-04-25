@@ -1,3 +1,5 @@
+dtValue = 0
+
 function loadHero()
   initHero()
 end
@@ -18,14 +20,22 @@ function drawHero()
   love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,-1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
   end
 
-  
   displayHPBar()
-  love.graphics.print("<-",hero.x,hero.y,0,1,1)
+
+  love.graphics.rectangle("fill",hero.x,hero.y,2,2)
   
-  love.graphics.print("|",hero.x+hero.sprite:getWidth()/2,hero.y)
-  love.graphics.print("|",hero.x-hero.sprite:getWidth()/2,hero.y)
-  love.graphics.print("|",hero.x,hero.y + hero.sprite:getHeight()/2)
-  love.graphics.print("|",hero.x,hero.y - hero.sprite:getHeight()/2)
+  --love.graphics.print("|",hero.x+hero.sprite:getWidth()/2,hero.y)
+  --love.graphics.print("|",hero.x-hero.sprite:getWidth()/2,hero.y)
+  --love.graphics.print("|",hero.x,hero.y + hero.sprite:getHeight()/2)
+  --love.graphics.print("|",hero.x,hero.y - hero.sprite:getHei ght()/2)
+  
+  love.graphics.rectangle("fill",hero.x,hero.y + hero.sprite:getHeight()/2,5,5)
+  love.graphics.rectangle("fill",hero.x,hero.y - hero.sprite:getHeight()/2,5,5)
+  love.graphics.rectangle("fill",hero.x + hero.sprite:getWidth()/2,hero.y,5,5)
+  love.graphics.rectangle("fill",hero.x - hero.sprite:getWidth()/2,hero.y,5,5)
+  
+  --love.graphics.print("<-4",oldHeroX,oldHeroY)
+  
   
 end
 
@@ -36,8 +46,9 @@ function initHero()
   hero.spritetop = imgCharatop 
   hero.delta = 0
   hero.direction = "right"
-  hero.x = 100
-  hero.y = 100
+  hero.jump = false
+  hero.x = screenWidth/2
+  hero.y = 50
   hero.vx = 0
   hero.vy = 0
   hero.life = 100
@@ -47,51 +58,79 @@ function initHero()
   hero.bonus = {}
   
 end
-
+deplaced = false
 function deplacementHero(dt)
+  
+  dtValue=dt
   
   oldHeroX = hero.x
   oldHeroY = hero.y
   
   IDcollision = {}
-  IDcollision[1] = map[math.floor(heros.y + hero.vy/32)+1][math.floor(heros.x/32)+1]
-  IDcollision[2] = map[math.floor(heros.y - hero.vy/32)+1][math.floor(heros.x/32)+1]
-  IDcollision[3] = map[math.floor(heros.y/32)+1][math.floor(heros.x + hero.vx/32)+1] 
-  IDcollision[4] = map[math.floor(heros.y/32)+1][math.floor(heros.x - hero.vx/32)+1]
   
-  hero.x = hero.x + (hero.vx * dt)
-  hero.y = hero.y + (hero.vy * dt)
+  
+  --if hero.x + imgChara:getWidth() < screenWidth and hero.x - imgChara:getWidth() > 0 and hero.y + imgChara:getHeight() < screenHeight and hero.y - imgChara:getHeight() > 0 then
+  --IDcollision[1] = twoDimMap[math.floor((  hero.y + imgChara:getHeight()/2  )/32)+1][math.floor(  hero.x  /32)+1]
+  --end
+  
+  IDcollision[1] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x + hero.sprite:getWidth()/2)/32 +1)]
+  IDcollision[2] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x - hero.sprite:getWidth()/2)/32 +1)]
+  IDcollision[3] = twoDimMap[math.floor((hero.y + hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
+  IDcollision[4] = twoDimMap[math.floor((hero.y - hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
+  
+  
   
   if hero.vx > 0 then
-    hero.vx = hero.vx - (500*dt)
+    hero.vx = hero.vx - (100*dt)
   elseif hero.vx < 0 then
-    hero.vx = hero.vx + (500*dt)
+    hero.vx = hero.vx + (100*dt)
   end
-
+  
   if hero.vy < 1000 then
     hero.vy = hero.vy + (2500*dt)
-  end
-
-  if isSolid(IDcollision[1],map) or isSolid(IDcollision[2],map) then
-    hero.y = oldHeroY
-    hero.vy = 0
-  end
-
-  if isSolid(IDcollision[3],map) or isSolid(IDcollision[4],map) then
-    hero.x = oldHeroX
-    hero.vx = 0
-  end
-
-  --if hero.x > screenWidth or hero.x < 0 then
-  --  hero.x = oldHeroX
-  --  hero.vx = 0
-  --end
+  end  
   
-  --if hero.y > screenHeight - 80 or hero.y < 0 then
-  --    hero.y = oldHeroY
-  --    hero.vy = 0
-  --end
-
+  if (isSolid(IDcollision[1],twoDimMap)) then
+    print("OB DROITE")
+    hero.vx = 0
+    hero.x = oldHeroX - (50*dt)
+  else
+    hero.x = hero.x + (hero.vx * dt)
+  end
+  
+  if  (isSolid(IDcollision[2],twoDimMap)) then
+    print("OB GAUCHE")
+    hero.vx = 0
+    hero.x = oldHeroX + (50*dt)
+  else
+    hero.x = hero.x + (hero.vx * dt)
+  end
+  
+  if (isSolid(IDcollision[3],twoDimMap)) then
+    print("OB BAS")
+    hero.vy = 0
+    hero.y = oldHeroY 
+  else
+    hero.y = hero.y + (hero.vy * dt)
+    deplacedY = true
+  end
+  
+  if (isSolid(IDcollision[4],twoDimMap)) then
+    print("OB HAUT")
+    hero.vy = 0
+    hero.y = oldHeroY + (10*dt)
+  else
+    if deplacedY == true then
+      hero.y = hero.y + (hero.vy * dt)      
+    end
+  end
+  
+  deplacedX = false
+  deplacedY = false
+  
+  if isOnGround(hero) then
+    hero.jump = false
+  end  
 end
 
 function inputHero(dt)
@@ -110,19 +149,18 @@ function inputHero(dt)
 
 end
 
-function jumpHero(dt)
-  if 1==1 then
-    if love.keyboard.isDown("space") then
-      if isOnGround(hero) then
-        hero.vy = hero.vy - (80000 * dt)
-      end
-    end  
+function jumpHero()
+  if love.keyboard.isDown("space") then
+    if hero.jump == false then
+      hero.vy = hero.vy - (60000 * dtValue)
+      hero.jump = true
+    end
   end
 end
 
 function losingLife(dt)
   if hero.life >= 0 then
-      hero.life =  hero.life - (3 * dt)
+      --hero.life =  hero.life - (3 * dt)
   end
   if hero.life <= 0 then
     hero.dead = true
