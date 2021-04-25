@@ -8,8 +8,13 @@ function updateHero(dt)
   aim()
 end
 
+
+  heroShader = love.graphics.newShader("shaderTest.fs")
+
+
 function drawHero()
     
+  love.graphics.setShader(heroShader)
   if hero.direction == "right" then
     love.graphics.draw(runSheet,runTexture[currentFrame],hero.x,hero.y,0,1,1,73/2,79/2)
     love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
@@ -17,7 +22,7 @@ function drawHero()
     love.graphics.draw(runSheet,runTexture[currentFrame],hero.x,hero.y,0,-1,1,73/2,79/2)
     love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,-1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
   end
-
+  --love.graphics.setShader()
   displayHPBar()
 
   love.graphics.rectangle("fill",hero.x,hero.y,2,2)

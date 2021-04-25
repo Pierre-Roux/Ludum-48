@@ -1,3 +1,7 @@
+--BG
+
+background = love.graphics.newImage("images/bg_test.jpg")
+
 -- UI
 imgHPBar = love.graphics.newImage("images/hpbar.png")
 imgHP = love.graphics.newImage("images/hp.png")

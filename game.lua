@@ -3,6 +3,7 @@ require("ennemis")
 require("scoreboard")
 require("map")
 require("camera")
+require("shoot")
 
 playState = "play"
 
@@ -40,6 +41,7 @@ function drawGame()
   
   if playState == "play" then
     camera:set()
+    love.graphics.draw(background,0,0,0)
     drawMap()
     drawHero()
     drawEnnemis()
