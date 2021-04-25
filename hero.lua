@@ -1,5 +1,3 @@
-dtValue = 0
-
 function loadHero()
   initHero()
 end
@@ -11,13 +9,13 @@ function updateHero(dt)
 end
 
 function drawHero()
-  
+    
   if hero.direction == "right" then
-  love.graphics.draw(hero.sprite,hero.x,hero.y,0,1,1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
-  love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
+    love.graphics.draw(runSheet,runTexture[currentFrame],hero.x,hero.y,0,1,1,73/2,79/2)
+    love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
   else
-  love.graphics.draw(hero.sprite,hero.x,hero.y,0,-1,1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
-  love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,-1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
+    love.graphics.draw(runSheet,runTexture[currentFrame],hero.x,hero.y,0,-1,1,73/2,79/2)
+    love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,-1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
   end
 
   displayHPBar()
@@ -40,6 +38,10 @@ function drawHero()
 end
 
 function initHero()
+  
+  dtValue = 0
+  frameCounter = 0
+  currentFrame = 1
   
   hero = {}
   hero.sprite = imgChara
@@ -68,14 +70,12 @@ function deplacementHero(dt)
   
   IDcollision = {}
   
-  --if hero.x + imgChara:getWidth() < screenWidth and hero.x - imgChara:getWidth() > 0 and hero.y + imgChara:getHeight() < screenHeight and hero.y - imgChara:getHeight() > 0 then
-  --IDcollision[1] = twoDimMap[math.floor((  hero.y + imgChara:getHeight()/2  )/32)+1][math.floor(  hero.x  /32)+1]
-  --end
-  
-  IDcollision[1] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x + hero.sprite:getWidth()/2)/32 +1)]
-  IDcollision[2] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x - hero.sprite:getWidth()/2)/32 +1)]
-  IDcollision[3] = twoDimMap[math.floor((hero.y + hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
-  IDcollision[4] = twoDimMap[math.floor((hero.y - hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
+  if hero.x + imgChara:getWidth() < screenWidth and hero.x - imgChara:getWidth() > 0 and hero.y + imgChara:getHeight() < screenHeight and hero.y - imgChara:getHeight() > 0 then
+    IDcollision[1] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x + hero.sprite:getWidth()/2)/32 +1)]
+    IDcollision[2] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x - hero.sprite:getWidth()/2)/32 +1)]
+    IDcollision[3] = twoDimMap[math.floor((hero.y + hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
+    IDcollision[4] = twoDimMap[math.floor((hero.y - hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
+  end
   
   if hero.vx > 0 then
     hero.vx = hero.vx - (100*dt)
@@ -90,7 +90,6 @@ function deplacementHero(dt)
   end
   
   if (isSolid(IDcollision[1],twoDimMap)) or (isSolid(IDcollision[2],twoDimMap)) then
-    print("OB X")
     hero.x = hero.x - (hero.vx * dt)
     hero.vx = 0
   else
@@ -98,13 +97,12 @@ function deplacementHero(dt)
   end
   
   if (isSolid(IDcollision[3],twoDimMap)) or (isSolid(IDcollision[4],twoDimMap)) then
-    print("OB Y")
     hero.y = oldHeroY
     hero.vy = 0
   else
     hero.y = hero.y + (hero.vy * dt)
   end
-  print (isOnGround(hero))
+
   if isOnGround(hero) then
     hero.jump = false
   end  
@@ -123,7 +121,31 @@ function inputHero(dt)
       hero.vx = hero.vx - (1500 * dt)
     end  
   end
+  
+  if love.keyboard.isDown("d") then
+    animate(dt)
+  end
+  
+  if love.keyboard.isDown("q") then
+    animate(dt)
+  end  
+end
 
+function animate(dt)
+  
+  if frameCounter >= 1 then
+    currentFrame = currentFrame + 1
+    if currentFrame >= 13 then
+      currentFrame = 1
+    end
+    frameCounter = 0
+  end
+
+  frameCounter = frameCounter + (15 * dt)
+  print(frameCounter)
+  print(currentFrame)
+  
+  --hero.sprite = RunTexture[currentFrame]
 end
 
 function jumpHero()
@@ -158,7 +180,9 @@ end
 
 function aim()
   x, y = love.mouse.getPosition()
-  hero.delta = math.angle(x,y,hero.x-30,hero.y-30) + 3
+  X = x + hero.x - screenWidth/2
+  Y = y + hero.y - screenHeight/2
+  hero.delta = math.angle(X,Y,hero.x-30,hero.y-30) + 3
   if hero.delta >= 1.5 and hero.delta <= 4.5 then
     hero.direction = "left"
   else

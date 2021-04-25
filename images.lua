@@ -6,5 +6,10 @@ imgHP = love.graphics.newImage("images/hp.png")
 imgChara = love.graphics.newImage("images/charalegs.png")
 imgCharatop = love.graphics.newImage("images/charatop.png")
 imgch = love.graphics.newImage("images/chara.png")
+
+runSheet = love.graphics.newImage("images/run_sheet.png")
+
+runTexture = SplitSheet(runSheet,73,79)
+
 -- Ennemis
 imgDrone = love.graphics.newImage("images/drone.png")

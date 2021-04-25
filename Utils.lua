@@ -61,3 +61,33 @@ function math.clamp(x, min, max)
     return x
   end
 end
+
+function SplitSheet(sheet,tileW,tileH)
+
+  resultTab = {}
+
+  local nbColumns = sheet:getWidth()/tileW
+  local nbRows = sheet:getHeight()/tileH
+  print(nbColumns)
+  print(nbRows)
+  resultTab[0] = nil
+  
+  local r, c
+  local id = 1
+  for r=1,nbRows do
+    for c=1,nbColumns do
+      resultTab[id] = love.graphics.newQuad(
+        (c-1)*tileW,
+        (r-1)*tileH,
+        tileW,
+        tileH,
+        sheet:getWidth(),
+        sheet:getHeight()
+        )
+      id = id + 1 
+    end
+  end
+  
+  return resultTab
+  
+end
