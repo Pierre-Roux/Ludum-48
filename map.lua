@@ -1,5 +1,5 @@
 -- Niveau
-map0 = require("maps/myMapFromPanel")
+map0 = require("maps/panel0")
 map = map0.layers[1].data
 
 twoDimMap = {}
