@@ -4,6 +4,7 @@ require("scoreboard")
 require("map")
 require("camera")
 require("shoot")
+require("shaders")
 
 playState = "play"
 
@@ -14,6 +15,7 @@ function loadgame()
   loadEnnemis()
   love.audio.stop(MusiqueStart)
   --love.audio.play(MusiqueStart)
+  shader = love.graphics.newShader(shader_code)
 end
 
 function updateGame(dt)
@@ -43,13 +45,32 @@ end
 function drawGame()
   
   if playState == "play" then
+    love.graphics.setShader(shader) 
+    love.graphics.setColor(0.2,0.4,0.4,1.0)
+    shader:send("screen",{
+        love.graphics.getWidth(),
+        love.graphics.getHeight()
+      })
+    shader:send("num_lights", 1)
+    shader:send("lights[0].position", {
+        hero.x - camera.x,
+        hero.y - camera.y
+        })
+    shader:send("lights[0].diffuse", {
+        0.9, 1.0, 0.85
+    })
+    shader:send("lights[0].power", 64)
+    
     camera:set()
     drawBackground(background)
     drawMap()
     drawHero()
+    drawShoot()
     drawEnnemis()
     camera:unset()
   end
+  love.graphics.setShader() 
+    
   if playState == "scoreboard" then
     drawScoreBoard()
   end

@@ -193,9 +193,12 @@ function aim()
 end
 
 function shootHero(dt)
-  
+  local xShoot = 0
+  local yShoot = 0
   if love.mouse.isDown(1) then
-    createBullet(hero.x,hero.y) 
+    xShoot = hero.x + 0
+    yShoot = hero.y + 0
+    createBullet(xShoot,yShoot,hero.delta) 
   end
   
 end
