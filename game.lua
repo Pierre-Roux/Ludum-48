@@ -2,6 +2,7 @@ require("hero")
 require("ennemis")
 require("scoreboard")
 require("map")
+require("camera")
 
 playState = "play"
 
@@ -18,6 +19,10 @@ function updateGame(dt)
     --love.audio.play(MusiqueLoop)
   end
   if playState == "play" then
+    -- Camera
+    camera.x = (hero.x - 1280/2)
+    camera.y = (hero.y - 720/2)
+    -- Hero and ennemies
     updateHero(dt)
     inputHero(dt)
     updateEnnemis(dt)
@@ -34,10 +39,11 @@ end
 function drawGame()
   
   if playState == "play" then
-    love.graphics.translate((-hero.x + 1280/2), (-hero.y + 720/2))
+    camera:set()
     drawMap()
     drawHero()
     drawEnnemis()
+    camera:unset()
   end
   if playState == "scoreboard" then
     drawScoreBoard()
