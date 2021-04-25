@@ -10,6 +10,7 @@ playState = "play"
 function loadgame()
   initMap()
   loadHero()
+  loadShoot()
   loadEnnemis()
   love.audio.stop(MusiqueStart)
   --love.audio.play(MusiqueStart)
@@ -24,8 +25,10 @@ function updateGame(dt)
     camera.x = (hero.x - 1280/2)
     camera.y = (hero.y - 720/2)
     -- Hero and ennemies
+    updateShoot(dt)
     updateHero(dt)
     inputHero(dt)
+    shootHero(dt)
     updateEnnemis(dt)
     if hero.dead == true then
       playState = "scoreboard"
@@ -66,5 +69,5 @@ function keypressedGame(key)
 end
 
 function mousepressedGame(X,Y,key)
-  shootHero(X,Y,key)
+  
 end

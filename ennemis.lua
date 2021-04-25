@@ -23,13 +23,12 @@ function updateEnnemis(dt)
     
     if mob.label == "autre" then
     end
-  
   end
 
 end
 
 function drawEnnemis()
-  DisplayEnnemis()
+  displayEnnemis()
 
 end
 
@@ -40,7 +39,7 @@ function initEnnemis()
   createDrone(1130,300)
 end
 
-function DisplayEnnemis()
+function displayEnnemis()
 
   for k,mob in ipairs(ennemis) do
     love.graphics.draw(mob.sprite,mob.x,mob.y,mob.delta,1,1,mob.sprite:getWidth()/2,mob.sprite:getHeight()/2)

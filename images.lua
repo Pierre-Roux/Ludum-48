@@ -17,3 +17,11 @@ runTexture = SplitSheet(runSheet,73,79)
 
 -- Ennemis
 imgDrone = love.graphics.newImage("images/drone.png")
+
+-- Arme
+imgBullet = love.graphics.newImage("images/bullet.png")
+imgMuzzlefx = love.graphics.newImage("images/muzzlefx.png")
+
+ExploSheet = love.graphics.newImage("images/explosion_sheet.png")
+
+--ExploTexture = SplitSheet(ExploSheet,73,79)

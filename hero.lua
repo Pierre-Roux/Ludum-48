@@ -192,6 +192,10 @@ function aim()
   end
 end
 
-function shootHero()
+function shootHero(dt)
+  
+  if love.mouse.isDown(1) then
+    
+  end
   
 end

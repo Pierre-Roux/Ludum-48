@@ -1,0 +1,45 @@
+
+function loadShoot()
+  initShoot()
+end
+
+function updateShoot(dt)
+  
+  for k,tir in ipairs(shootTab) do
+    
+    if tir.label == "bullet" then
+      updtateBullet(tir,dt)
+      
+      for k,mob in ipairs(ennemis) do
+        
+        if collide(tir, mob) then
+          print("mob touché")
+        end 
+        
+      end
+    end
+    if mob.label == "autre" then
+    end
+  end
+  
+end
+
+function drawShoot()
+
+  displayShoot()
+
+end
+
+function initShoot()
+  
+  shootTab = {}
+  
+end
+
+function displayShoot()
+  
+  for k,tir in ipairs(shootTab) do
+    love.graphics.draw(tir.sprite,tir.x,tir.y,tir.delta,1,1,tir.sprite:getWidth()/2,tir.sprite:getHeight()/2)
+  end
+  
+end
