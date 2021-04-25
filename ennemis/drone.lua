@@ -31,7 +31,6 @@ function updtateDrone(drone,dt)
     drone.x = drone.x + (Drone.vx * math.cos(drone.delta) * dt)
     drone.y = drone.y + (Drone.vy * math.sin(drone.delta) * dt)
   end
-  print(Drone.reloadTime)
   if drone.reload == true then
     if Drone.reloadTime <= 0 then
       drone.reload = false

@@ -53,6 +53,12 @@ function deplacementHero(dt)
   oldHeroX = hero.x
   oldHeroY = hero.y
   
+  IDcollision = {}
+  IDcollision[1] = map[math.floor(heros.y + hero.vy/32)+1][math.floor(heros.x/32)+1]
+  IDcollision[2] = map[math.floor(heros.y - hero.vy/32)+1][math.floor(heros.x/32)+1]
+  IDcollision[3] = map[math.floor(heros.y/32)+1][math.floor(heros.x + hero.vx/32)+1] 
+  IDcollision[4] = map[math.floor(heros.y/32)+1][math.floor(heros.x - hero.vx/32)+1]
+  
   hero.x = hero.x + (hero.vx * dt)
   hero.y = hero.y + (hero.vy * dt)
   
@@ -66,14 +72,25 @@ function deplacementHero(dt)
     hero.vy = hero.vy + (2500*dt)
   end
 
-  if hero.x > screenWidth or hero.x < 0 then
+  if isSolid(IDcollision[1],map) or isSolid(IDcollision[2],map) then
+    hero.y = oldHeroY
+    hero.vy = 0
+  end
+
+  if isSolid(IDcollision[3],map) or isSolid(IDcollision[4],map) then
     hero.x = oldHeroX
     hero.vx = 0
   end
-  if hero.y > screenHeight - 80 or hero.y < 0 then
-      hero.y = oldHeroY
-      hero.vy = 0
-  end
+
+  --if hero.x > screenWidth or hero.x < 0 then
+  --  hero.x = oldHeroX
+  --  hero.vx = 0
+  --end
+  
+  --if hero.y > screenHeight - 80 or hero.y < 0 then
+  --    hero.y = oldHeroY
+  --    hero.vy = 0
+  --end
 
 end
 
@@ -132,6 +149,4 @@ function aim()
   else
     hero.direction = "right"
   end
-  
-  print(hero.delta)
 end

@@ -9,14 +9,17 @@ function loadgame()
   initMap()
   loadHero()
   loadEnnemis()
+  love.audio.stop(MusiqueStart)
+  --love.audio.play(MusiqueStart)
 end
 
 function updateGame(dt)
-  
+  if not MusiqueStart:isPlaying() then
+    --love.audio.play(MusiqueLoop)
+  end
   if playState == "play" then
     updateHero(dt)
     inputHero(dt)
-    jumpHero(dt)
     updateEnnemis(dt)
     if hero.dead == true then
       playState = "scoreboard"
@@ -38,12 +41,11 @@ function drawGame()
   if playState == "scoreboard" then
     drawScoreBoard()
   end
-  print("flute")
 end
 
 function keypressedGame(key)
   if playState == "play" then
-
+    jumpHero()
   end
   if playState == "scoreboard" then
     if key == "space" then

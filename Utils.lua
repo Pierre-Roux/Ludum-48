@@ -1,11 +1,18 @@
 function isOnGround(entity) 
-  
   if (entity.y + 20) > screenHeight - 80 then
     return true
   else
     return false
   end
-  
+end
+
+function isSolid(ID,map)
+  local tileType = tileTypes[ID]
+  if tileType == "sol" then
+    return true
+  else
+    return false
+  end
 end
 
 function math.dist(x1,y1, x2,y2) 
