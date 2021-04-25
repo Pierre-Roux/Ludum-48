@@ -34,6 +34,7 @@ end
 function drawGame()
   
   if playState == "play" then
+    love.graphics.translate((-hero.x + 1280/2), (-hero.y + 720/2))
     drawMap()
     drawHero()
     drawEnnemis()

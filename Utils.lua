@@ -51,3 +51,13 @@ function turnOneDimTableToTwoDimTable(oneDimTable, nbRows, nbCols)
   end
   return twoDimTable
 end
+
+function math.clamp(x, min, max)
+  if x < min then
+    return min
+  elseif x > max then
+    return max
+  else
+    return x
+  end
+end
