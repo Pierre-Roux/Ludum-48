@@ -58,3 +58,8 @@ function love.keypressed(key)
   
 end
   
+function love.mousepressed(X,Y,key)
+  
+  mousepressedGame(X,Y,key)
+  
+end

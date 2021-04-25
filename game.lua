@@ -55,6 +55,7 @@ end
 function keypressedGame(key)
   if playState == "play" then
     jumpHero()
+    
   end
   if playState == "scoreboard" then
     if key == "space" then
@@ -62,4 +63,8 @@ function keypressedGame(key)
       playState = "play"
     end
   end
+end
+
+function mousepressedGame(X,Y,key)
+  shootHero(X,Y,key)
 end
