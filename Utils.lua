@@ -45,7 +45,7 @@ function turnOneDimTableToTwoDimTable(oneDimTable, nbRows, nbCols)
   for row = 1, nbRows do
     table.insert(twoDimTable, {})
     for col = 1, nbCols do
-      print(twoDimTable[row][col])
+      --print(twoDimTable[row][col])
       twoDimTable[row][col] = oneDimTable[(row-1)*nbCols + col]
     end
   end
