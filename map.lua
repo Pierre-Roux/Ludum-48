@@ -66,7 +66,7 @@ function drawMap()
   x = 0
   y = 0
   for row = 1, 23 do
-    for col = 1, 40*2 do
+    for col = 1, 40*5 do
       -- Draw tile
       local tile = twoDimMap[row][col]
       local texQuad = tileTextures[tile]

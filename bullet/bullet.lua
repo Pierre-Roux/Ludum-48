@@ -18,5 +18,6 @@ end
 
 function updtateBullet(bullet,dt)
   
+  
 
 end

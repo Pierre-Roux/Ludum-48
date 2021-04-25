@@ -1,3 +1,4 @@
+require("bullet/bullet")
 
 function loadShoot()
   initShoot()
@@ -18,7 +19,7 @@ function updateShoot(dt)
         
       end
     end
-    if mob.label == "autre" then
+    if tir.label == "autre" then
     end
   end
   
@@ -39,7 +40,8 @@ end
 function displayShoot()
   
   for k,tir in ipairs(shootTab) do
-    love.graphics.draw(tir.sprite,tir.x,tir.y,tir.delta,1,1,tir.sprite:getWidth()/2,tir.sprite:getHeight()/2)
+    love.graphics.rectangle("fill",tir.x,tir.y,5,5)
+    love.graphics.draw(tir.sprite,tir.x,tir.y,tir.delta,5,5,tir.sprite:getWidth()/2,tir.sprite:getHeight()/2)
   end
   
 end

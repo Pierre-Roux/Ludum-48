@@ -44,7 +44,7 @@ function drawGame()
   
   if playState == "play" then
     camera:set()
-    love.graphics.draw(background,0,0,0)
+    drawBackground(background)
     drawMap()
     drawHero()
     drawEnnemis()
@@ -70,4 +70,12 @@ end
 
 function mousepressedGame(X,Y,key)
   
+end
+
+function drawBackground(img)
+  local xbg = 0
+  for i=1,5 do
+    love.graphics.draw(img,xbg,0,0)
+    xbg = xbg + 1280
+  end
 end

@@ -54,7 +54,7 @@ function initHero()
   hero.delta = 0
   hero.direction = "right"
   hero.jump = false
-  hero.x = screenWidth/2
+  hero.x = screenWidth/2 + 2*(1280)
   hero.y = 50
   hero.vx = 0
   hero.vy = 0
@@ -71,16 +71,16 @@ function deplacementHero(dt)
   dtValue=dt
   
   oldHeroX = hero.x
-  oldHeroY = hero.y - 2
+  oldHeroY = hero.y -2
   
   IDcollision = {}
   
-  if hero.x + imgChara:getWidth() < screenWidth and hero.x - imgChara:getWidth() > 0 and hero.y + imgChara:getHeight() < screenHeight and hero.y - imgChara:getHeight() > 0 then
+  --if hero.x + imgChara:getWidth() < screenWidth and hero.x - imgChara:getWidth() > 0 and hero.y + imgChara:getHeight() < screenHeight and hero.y - imgChara:getHeight() > 0 then
     IDcollision[1] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x + hero.sprite:getWidth()/2)/32 +1)]
     IDcollision[2] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x - hero.sprite:getWidth()/2)/32 +1)]
     IDcollision[3] = twoDimMap[math.floor((hero.y + hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
     IDcollision[4] = twoDimMap[math.floor((hero.y - hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
-  end
+  --end
   
   if hero.vx > 0 then
     hero.vx = hero.vx - (100*dt)
@@ -107,6 +107,8 @@ function deplacementHero(dt)
   else
     hero.y = hero.y + (hero.vy * dt)
   end
+
+  
 
   if isOnGround(hero) then
     hero.jump = false
@@ -147,10 +149,8 @@ function animate(dt)
   end
 
   frameCounter = frameCounter + (15 * dt)
-  print(frameCounter)
-  print(currentFrame)
-  
-  --hero.sprite = RunTexture[currentFrame]
+ 
+  --hero.sprite = runTexture[currentFrame]
 end
 
 function jumpHero()
@@ -195,7 +195,7 @@ end
 function shootHero(dt)
   
   if love.mouse.isDown(1) then
-    
+    createBullet(hero.x,hero.y) 
   end
   
 end
