@@ -64,21 +64,18 @@ function deplacementHero(dt)
   dtValue=dt
   
   oldHeroX = hero.x
-  oldHeroY = hero.y
+  oldHeroY = hero.y - 2
   
   IDcollision = {}
-  
   
   --if hero.x + imgChara:getWidth() < screenWidth and hero.x - imgChara:getWidth() > 0 and hero.y + imgChara:getHeight() < screenHeight and hero.y - imgChara:getHeight() > 0 then
   --IDcollision[1] = twoDimMap[math.floor((  hero.y + imgChara:getHeight()/2  )/32)+1][math.floor(  hero.x  /32)+1]
   --end
   
-  IDcollision[1] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x + hero.sprite:getWidth()/2 + 1)/32 +1)]
-  IDcollision[2] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x - hero.sprite:getWidth()/2 + 1)/32 +1)]
-  IDcollision[3] = twoDimMap[math.floor((hero.y + hero.sprite:getHeight()/2 + 1)/32+1)][math.floor(hero.x/32+1)]
-  IDcollision[4] = twoDimMap[math.floor((hero.y - hero.sprite:getHeight()/2 + 1)/32+1)][math.floor(hero.x/32+1)]
-  
-  
+  IDcollision[1] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x + hero.sprite:getWidth()/2)/32 +1)]
+  IDcollision[2] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x - hero.sprite:getWidth()/2)/32 +1)]
+  IDcollision[3] = twoDimMap[math.floor((hero.y + hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
+  IDcollision[4] = twoDimMap[math.floor((hero.y - hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
   
   if hero.vx > 0 then
     hero.vx = hero.vx - (100*dt)
@@ -86,26 +83,28 @@ function deplacementHero(dt)
     hero.vx = hero.vx + (100*dt)
   end
   
-  if hero.vy < 1000 then
-    hero.vy = hero.vy + (2500*dt)
-  end  
+  if not isOnGround(hero) then
+    if hero.vy < 1000 then
+      hero.vy = hero.vy + (2500*dt)
+    end
+  end
   
   if (isSolid(IDcollision[1],twoDimMap)) or (isSolid(IDcollision[2],twoDimMap)) then
-    print("OB DROITE")
+    print("OB X")
+    hero.x = hero.x - (hero.vx * dt)
     hero.vx = 0
-    hero.x = oldHeroX
   else
     hero.x = hero.x + (hero.vx * dt)
   end
   
   if (isSolid(IDcollision[3],twoDimMap)) or (isSolid(IDcollision[4],twoDimMap)) then
-    print("OB BAS")
+    print("OB Y")
+    hero.y = oldHeroY
     hero.vy = 0
-    hero.y = oldHeroY 
   else
     hero.y = hero.y + (hero.vy * dt)
   end
-  
+  print (isOnGround(hero))
   if isOnGround(hero) then
     hero.jump = false
   end  
