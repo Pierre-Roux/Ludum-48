@@ -61,6 +61,8 @@ function initHero()
   hero.life = 100
   hero.lifeMax = 100
   hero.dead = false
+  hero.reload = false
+  hero.reloadTime = 10
   hero.weapon = ""
   hero.bonus = {}
   
@@ -196,9 +198,23 @@ function shootHero(dt)
   local xShoot = 0
   local yShoot = 0
   if love.mouse.isDown(1) then
-    xShoot = hero.x + 0
-    yShoot = hero.y + 0
-    createBullet(xShoot,yShoot,hero.delta) 
+    if hero.reload == true then
+      if hero.reloadTime <= 0 then
+        hero.reload = false
+        hero.reloadTime = 10
+      else
+        hero.reloadTime = hero.reloadTime - (50*dt)
+      end
+    else
+      xShoot = hero.x + 0
+      yShoot = hero.y + 0
+      createBullet(xShoot,yShoot,hero.delta) 
+      hero.reload = true
+      DecodeGunShoot= love.sound.newDecoder("sons/sd_gun_shot.wav")
+      GunShoot = love.audio.newSource(DecodeGunShoot,"stream") 
+      love.audio.play(GunShoot)
+    end
   end
   
+
 end

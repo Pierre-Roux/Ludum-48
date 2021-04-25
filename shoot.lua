@@ -12,11 +12,13 @@ function updateShoot(dt)
       updtateBullet(tir,dt)
       
       for k,mob in ipairs(ennemis) do
-        
-        if collide(tir, mob) then
-          print("mob touché")
-        end 
-        
+        --if mob ~= nil then
+          if collide(tir, mob) then
+            mob.life = mob.life - tir.dmg
+            table.remove(shootTab,tir.id)
+            break
+          end 
+        --end
       end
     end
     if tir.label == "autre" then

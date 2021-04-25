@@ -48,6 +48,9 @@ function love.draw()
 
   if gameState == "Game" then
     drawGame()
+    
+    --print(ennemis[1],ennemis[2],ennemis[3])
+    
   end
 
 end

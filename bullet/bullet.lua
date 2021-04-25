@@ -1,5 +1,8 @@
+globalBulletID = 1
+
 function createBullet(x,y,delta) 
   Bullet = {}
+  Bullet.id = globalBulletID
   Bullet.label = "bullet"
   Bullet.sprite = imgBullet
   Bullet.state = "idle"
@@ -14,6 +17,7 @@ function createBullet(x,y,delta)
   Bullet.dmg = 5
   Bullet.delta = delta
   table.insert(shootTab,Bullet)
+  globalBulletID = globalBulletID + 1
 end
 
 function updtateBullet(bullet,dt)
