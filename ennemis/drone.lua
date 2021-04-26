@@ -24,9 +24,11 @@ end
 function updtateDrone(drone,dt)
   
   if drone.life <= 0 then
-    print(drone.id)
-    ennemis[drone.id] = nil
-    --table.remove(ennemis,drone.id)
+    table.remove(ennemis,drone.id)
+    for i=drone.id,#ennemis do
+      ennemis[i].id = ennemis[i].id - 1
+    end
+    globalDroneID = globalDroneID - 1
   end
   
   distance = math.dist(hero.x,hero.y,drone.x,drone.y)

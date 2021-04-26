@@ -49,7 +49,14 @@ function love.draw()
   if gameState == "Game" then
     drawGame()
     
-    --print(ennemis[1],ennemis[2],ennemis[3])
+    if shootTab[1] ~= nil and shootTab[2] == nil and shootTab[3] == nil then
+      print(shootTab[1].id)
+    elseif shootTab[1] ~= nil and shootTab[2] ~= nil and shootTab[3] == nil then
+      print(shootTab[1].id,shootTab[2].id)
+    elseif shootTab[1] ~= nil and shootTab[2] ~= nil and shootTab[3] ~= nil then
+      print(shootTab[1].id,shootTab[2].id,shootTab[3].id)
+    end
+
     
   end
 

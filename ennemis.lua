@@ -10,21 +10,18 @@ end
 function updateEnnemis(dt)
 
   for k,mob in ipairs(ennemis) do
-    print(mob)
-    --if mob ~= nil then
-      if mob.label == "drone" then
-        updtateDrone(mob,dt)
-        if collide(mob, hero) then
-          if mob.reload == false then
-            mob.reload = true
-            hero.life = hero.life - 1
-          end
-        end 
-      end
-      
-      if mob.label == "autre" then
-      end
-    --end
+    if mob.label == "drone" then
+      updtateDrone(mob,dt)
+      if collide(mob, hero) then
+        if mob.reload == false then
+          mob.reload = true
+          hero.life = hero.life - 1
+        end
+      end 
+    end
+    
+    if mob.label == "autre" then
+    end
   end
 
 end
@@ -36,9 +33,11 @@ end
 
 function initEnnemis()
   ennemis = {}
-  createDrone(1000,10)
-  createDrone(800,200)
-  createDrone(1130,300)
+  
+  for i=1, 40 do
+    createDrone(math.random(screenWidth*5),math.random(screenHeight))
+  end
+
 end
 
 function displayEnnemis()

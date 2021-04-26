@@ -14,13 +14,13 @@ function loadgame()
   loadShoot()
   loadEnnemis()
   love.audio.stop(MusiqueStart)
-  --love.audio.play(MusiqueStart)
+  love.audio.play(MusiqueStart)
   shader = love.graphics.newShader(shader_code)
 end
 
 function updateGame(dt)
   if not MusiqueStart:isPlaying() then
-    --love.audio.play(MusiqueLoop)
+    love.audio.play(MusiqueLoop)
   end
   if playState == "play" then
     -- Camera
