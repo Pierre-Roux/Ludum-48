@@ -31,7 +31,7 @@ function loadMenu()
   frameCounter = 0
   currentFrame = 1
   
-  opacityFade = 1
+  opacityFade = 0
   frameCounterFade = 0
   fadeEnd = false
   fadeIn = false
@@ -52,9 +52,9 @@ function displayMenu()
   love.graphics.draw (title[currentFrame],0,0,0,1,1)
   
   if fadeIn == true then
-    love.graphics.setColor(0,0,0)
-    love.graphics.rectangle("fill",0,0,screenWidth,screenHeight)
-    love.graphics.setColor(0,0,0)
+    love.graphics.setColor(1,1,1,opacityFade)
+    love.graphics.draw(black,0,0)
+    love.graphics.setColor(1,1,1,1)
   end
   
 end
@@ -73,13 +73,13 @@ end
 
 function animateMenuFade(dt) 
   if frameCounterFade >= 1 then
-    opacityFade = opacityFade - 0.1
+    opacityFade = opacityFade + 0.01
     frameCounterFade = 0
   end
   
-  if opacityFade <= 0 then
+  if opacityFade >= 1 then
     fadeEnd = true
   end
   
-  frameCounterFade = frameCounterFade + (6 * dt)
+  frameCounterFade = frameCounterFade + (60 * dt)
 end

@@ -49,7 +49,7 @@ function displayShoot()
   
   
   for k,tir in ipairs(shootTab) do
-    love.graphics.draw(tir.sprite,tir.x,tir.y,tir.delta,1.3,1.3,tir.sprite:getWidth()/2,tir.sprite:getHeight()/2)
+    love.graphics.draw(tir.sprite,tir.x,tir.y,tir.delta,1.5,1.5,tir.sprite:getWidth()/2,tir.sprite:getHeight()/2)
   end
   
 end
