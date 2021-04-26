@@ -23,7 +23,6 @@ function drawHero()
     love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,-1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
   end
   --love.graphics.setShader()
-  displayHPBar()
 
   love.graphics.rectangle("fill",hero.x,hero.y,2,2)
   
@@ -85,9 +84,9 @@ function deplacementHero(dt)
   end
   
   if hero.vx > 0 then
-    hero.vx = hero.vx - (100*dt)
+    hero.vx = hero.vx - (1500*dt)
   elseif hero.vx < 0 then
-    hero.vx = hero.vx + (100*dt)
+    hero.vx = hero.vx + (1500*dt)
   end
   
   if not isOnGround(hero) then
@@ -119,15 +118,15 @@ end
 
 function inputHero(dt)
   
-  if hero.vx < 400 then
+  if hero.vx < 600 then
     if love.keyboard.isDown("d") then
-      hero.vx = hero.vx + (1500 * dt)
+      hero.vx = hero.vx + (2400 * dt)
     end
   end
 
-  if hero.vx > -400 then
+  if hero.vx > -600 then
     if love.keyboard.isDown("q") then
-      hero.vx = hero.vx - (1500 * dt)
+      hero.vx = hero.vx - (2400 * dt)
     end  
   end
   
@@ -158,7 +157,7 @@ end
 function jumpHero()
   if love.keyboard.isDown("space") then
     if hero.jump == false then
-      hero.vy = hero.vy - (60000 * dtValue)
+      hero.vy = hero.vy - (55000 * dtValue)
       hero.jump = true
     end
   end
@@ -170,15 +169,6 @@ function losingLife(dt)
   end
   if hero.life <= 0 then
     hero.dead = true
-  end
-end
-
-function displayHPBar()
-  love.graphics.draw(imgHPBar,50,50,0,1,1)
-  local barSize = (imgHP:getWidth()) * (hero.life/hero.lifeMax)
-  if barSize >= 0 then
-    local barQuad = love.graphics.newQuad(0,0,barSize,imgHP:getHeight(),imgHP:getWidth(),imgHP:getHeight())
-    love.graphics.draw(imgHP,barQuad,50,50)
   end
 end
 
@@ -201,7 +191,7 @@ function shootHero(dt)
     if hero.reload == true then
       if hero.reloadTime <= 0 then
         hero.reload = false
-        hero.reloadTime = 10
+        hero.reloadTime = 6
       else
         hero.reloadTime = hero.reloadTime - (50*dt)
       end

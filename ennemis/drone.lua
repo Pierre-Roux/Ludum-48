@@ -21,7 +21,7 @@ function createDrone(x,y)
   globalDroneID = globalDroneID + 1
 end
 
-function updtateDrone(drone,dt)
+function updateDrone(drone,dt)
   
   if drone.life <= 0 then
     table.remove(ennemis,drone.id)

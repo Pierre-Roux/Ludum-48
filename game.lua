@@ -5,6 +5,7 @@ require("map")
 require("camera")
 require("shoot")
 require("shaders")
+require("ui")
 
 playState = "play"
 
@@ -68,6 +69,7 @@ function drawGame()
     drawShoot()
     drawEnnemis()
     camera:unset()
+    drawUI()
   end
   love.graphics.setShader() 
     

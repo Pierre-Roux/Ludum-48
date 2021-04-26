@@ -11,7 +11,7 @@ function updateEnnemis(dt)
 
   for k,mob in ipairs(ennemis) do
     if mob.label == "drone" then
-      updtateDrone(mob,dt)
+      updateDrone(mob,dt)
       if collide(mob, hero) then
         if mob.reload == false then
           mob.reload = true
