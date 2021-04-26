@@ -207,7 +207,7 @@ function shootHero(dt)
       end
     else
       xShoot = hero.x + 0
-      yShoot = hero.y + 0
+      yShoot = hero.y - 25
       createBullet(xShoot,yShoot,hero.delta) 
       hero.reload = true
       DecodeGunShoot= love.sound.newDecoder("sons/sd_gun_shot.wav")
