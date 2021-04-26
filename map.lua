@@ -56,7 +56,6 @@ function initMap()
   
   populatePanelTables()
   
-  print("center panels table length : "..#centerPanelsTable)
   table.insert(mapsTable, farLeftPanelsTable[ math.random( #farLeftPanelsTable ) ])
   table.insert(mapsTable, leftPanelsTable[ math.random( #leftPanelsTable ) ])
   table.insert(mapsTable, centerPanelsTable[ math.random( #centerPanelsTable ) ])
@@ -66,13 +65,12 @@ function initMap()
   -- Merge the panels horizontally (append)
   twoDimMap = mergePanelsHorizontally(mapsTable)
   
-  for i=1,10 do
-    tileTypes[i] = "sol"
+  for i=1,8 do
+    tileTypes[i] = "fill"
   end
   
   -- Load textures from tilesheet
-  print("game : initiating textures loading")
-  tileSheet = love.graphics.newImage("images/level1_tileset.png")
+  tileSheet = love.graphics.newImage("images/tileSheet1.png")
   local nbColumns = tileSheet:getWidth()/TILE_WIDTH
   local nbRows = tileSheet:getHeight()/TILE_HEIGHT
   
@@ -93,7 +91,6 @@ function initMap()
       id = id + 1
     end
   end
-  print("game : textures successfully loaded")
 end
 
 function drawMap()
@@ -106,9 +103,7 @@ function drawMap()
   for row = 1, 23 do
     for col = 1, 40*5 do
       -- Draw tile
-      print(row, col)
       local tile = twoDimMap[row][col]
-      print(tile)
       local texQuad = tileTextures[tile]
       if tile > 0 then
         love.graphics.draw(tileSheet, texQuad, x, y, 0, 1, 1)

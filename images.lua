@@ -1,5 +1,18 @@
---BG
+--Menu
+backgroundMenu = love.graphics.newImage("images/mainmenu.png")
 
+title = {}
+for i=1,60 do
+  title[i] = love.graphics.newImage("images/title_1.png")
+end
+
+title[61] = love.graphics.newImage("images/title_2.png")
+title[62] = love.graphics.newImage("images/title_3.png")
+title[63] = love.graphics.newImage("images/title_4.png")
+title[64] = love.graphics.newImage("images/title_5.png")
+title[65] = love.graphics.newImage("images/title_1.png")
+
+--BG
 background = love.graphics.newImage("images/bg_test.jpg")
 
 -- UI
@@ -25,3 +38,4 @@ imgMuzzlefx = love.graphics.newImage("images/muzzlefx.png")
 ExploSheet = love.graphics.newImage("images/explosion_sheet.png")
 
 --ExploTexture = SplitSheet(ExploSheet,73,79)
+

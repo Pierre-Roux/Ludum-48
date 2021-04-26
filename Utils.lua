@@ -11,7 +11,7 @@ end
 
 function isSolid(ID,map)
   local tileType = tileTypes[ID]
-  if tileType == "sol" then
+  if tileType == "fill" then
     return true
   else
     return false
@@ -68,8 +68,6 @@ function SplitSheet(sheet,tileW,tileH)
 
   local nbColumns = sheet:getWidth()/tileW
   local nbRows = sheet:getHeight()/tileH
-  print(nbColumns)
-  print(nbRows)
   resultTab[0] = nil
   
   local r, c

@@ -2,12 +2,26 @@ require("ennemis/drone")
 
 ennemis = {}
 
-function loadEnnemis()
-  initEnnemis()
+function loadEnnemis(dangerFactor)
+  initEnnemis(dangerFactor)
 
 end
 
 function updateEnnemis(dt)
+
+  livingDrone = 0
+  for k,mob in ipairs(ennemis) do
+    if mob.label == "drone" then
+      livingDrone = livingDrone + 1
+    end
+  end
+  
+  if livingDrone ~= 0 then
+    love.audio.play(Swarm)
+    Swarm:setVolume(0.30)
+  else
+    love.audio.stop(Swarm)
+  end
 
   for k,mob in ipairs(ennemis) do
     if mob.label == "drone" then
@@ -28,13 +42,13 @@ end
 
 function drawEnnemis()
   displayEnnemis()
-
 end
 
-function initEnnemis()
+function initEnnemis(dangerFactor)
   ennemis = {}
-  
-  for i=1, 40 do
+  livingDrone = 0
+  nbDrone = 10 
+  for i=1, nbDrone do
     createDrone(math.random(screenWidth*5),math.random(screenHeight))
   end
 
@@ -44,11 +58,7 @@ function displayEnnemis()
 
   for k,mob in ipairs(ennemis) do
     love.graphics.draw(mob.sprite,mob.x,mob.y,mob.delta,1,1,mob.sprite:getWidth()/2,mob.sprite:getHeight()/2)
-    love.graphics.print(mob.id,mob.x,mob.y,0,3,3)
-    love.graphics.print("|",mob.x+mob.sprite:getWidth()/2,mob.y)
-    love.graphics.print("|",mob.x-mob.sprite:getWidth()/2,mob.y)
-    love.graphics.print("|",mob.x,mob.y + mob.sprite:getHeight()/2)
-    love.graphics.print("|",mob.x,mob.y - mob.sprite:getHeight()/2)
+    --love.graphics.print(mob.id,mob.x,mob.y,0,3,3)
   end
   
 end

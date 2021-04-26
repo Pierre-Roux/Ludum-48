@@ -9,13 +9,18 @@ require("ui")
 
 playState = "play"
 
-function loadgame()
+function loadGame()
   initMap()
+  loadGlobals()
   loadHero()
   loadShoot()
   loadEnnemis()
-  love.audio.stop(MusiqueStart)
-  love.audio.play(MusiqueStart)
+  Level = 1
+  gameScore = 0
+  dangerFactor = 0
+  love.audio.stop(MusiqueLoop)
+  love.audio.play(MusiqueLoop)
+  MusiqueStart:setVolume(0.5)
   shader = love.graphics.newShader(shader_code)
 end
 
@@ -65,8 +70,8 @@ function drawGame()
     camera:set()
     drawBackground(background)
     drawMap()
-    drawHero()
     drawShoot()
+    drawHero()
     drawEnnemis()
     camera:unset()
     drawUI()
@@ -81,11 +86,13 @@ end
 function keypressedGame(key)
   if playState == "play" then
     jumpHero()
-    
+    if key == "r" then
+      playState = "scoreboard"
+    end
   end
   if playState == "scoreboard" then
     if key == "space" then
-      loadgame()
+      loadGame()
       playState = "play"
     end
   end
@@ -101,4 +108,20 @@ function drawBackground(img)
     love.graphics.draw(img,xbg,0,0)
     xbg = xbg + 1280
   end
+end
+
+function initNextLevel()
+  Level = Level + 1
+  dangerFactor = dangerFactor + 5
+  initMap()
+  loadGlobals()
+  loadHero()
+  loadShoot()
+  loadEnnemis(dangerFactor)
+
+end
+
+function loadGlobals()
+  globalBulletID = 1
+  globalDroneID = 1
 end

@@ -7,8 +7,8 @@ function createBullet(x,y,delta)
   Bullet.sprite = imgBullet
   Bullet.x = x
   Bullet.y = y
-  Bullet.vx = 600
-  Bullet.vy = 600
+  Bullet.vx = 800
+  Bullet.vy = 800
   Bullet.hp = 10
   Bullet.collide = false
   Bullet.dmg = 5

@@ -14,7 +14,7 @@ require("game")
 require("images")
 require("sons")
 
-gameState = "Game"
+gameState = "Menu"
 
 function love.load()
   
@@ -22,9 +22,14 @@ function love.load()
   love.window.setMode(1280, 720)
   screenWidth = love.graphics.getWidth()
   screenHeight = love.graphics.getHeight()
-  print(screenWidth, screenHeight)
   
-  loadgame()
+  if gameState == "Menu" then
+    loadMenu()
+  end
+
+  if gameState == "Game" then
+    loadGame()
+  end
   
 end
 
@@ -48,23 +53,19 @@ function love.draw()
 
   if gameState == "Game" then
     drawGame()
-    
-    if shootTab[1] ~= nil and shootTab[2] == nil and shootTab[3] == nil then
-      print(shootTab[1].id)
-    elseif shootTab[1] ~= nil and shootTab[2] ~= nil and shootTab[3] == nil then
-      print(shootTab[1].id,shootTab[2].id)
-    elseif shootTab[1] ~= nil and shootTab[2] ~= nil and shootTab[3] ~= nil then
-      print(shootTab[1].id,shootTab[2].id,shootTab[3].id)
-    end
-
-    
   end
 
 end
 
 function love.keypressed(key)
   
-  keypressedGame(key)
+  if gameState == "Menu" then
+    keypressedMenu(key)
+  end
+
+  if gameState == "Game" then
+    keypressedGame(key)
+  end
   
 end
   

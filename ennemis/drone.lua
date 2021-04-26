@@ -8,14 +8,14 @@ function createDrone(x,y)
   Drone.state = "idle"
   Drone.reload = false
   Drone.reloadTime = 10
+  Drone.scoreValue = 10
   Drone.x = x
   Drone.y = y
-  Drone.vx = 200
-  Drone.vy = 200
-  Drone.hp = 10
+  Drone.vx = 450
+  Drone.vy = 450
   Drone.rayonDetect = 800
-  Drone.life = 5
-  Drone.dmg = 5
+  Drone.life = 15
+  Drone.dmg = 50
   Drone.delta = 0
   table.insert(ennemis,Drone)
   globalDroneID = globalDroneID + 1
@@ -29,6 +29,11 @@ function updateDrone(drone,dt)
       ennemis[i].id = ennemis[i].id - 1
     end
     globalDroneID = globalDroneID - 1
+    DecodeDronedie = love.sound.newDecoder("sons/sd_drone_explosion.wav")
+    Dronedie = love.audio.newSource(DecodeDronedie,"stream")
+    love.audio.play(Dronedie)
+    Dronedie:setVolume(1)
+    gameScore = gameScore + Drone.scoreValue
   end
   
   distance = math.dist(hero.x,hero.y,drone.x,drone.y)

@@ -15,29 +15,34 @@ end
 function drawHero()
     
   love.graphics.setShader(heroShader)
-  if hero.direction == "right" then
-    love.graphics.draw(runSheet,runTexture[currentFrame],hero.x,hero.y,0,1,1,73/2,79/2)
-    love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
-  else
-    love.graphics.draw(runSheet,runTexture[currentFrame],hero.x,hero.y,0,-1,1,73/2,79/2)
-    love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,-1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
+  
+  if hero.state == "idle" then
+    if hero.direction == "right" then
+      love.graphics.draw(hero.animSprite,hero.x,hero.y,0,1,1,hero.animSprite:getWidth()/2,hero.animSprite:getHeight()/2)
+      love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
+    else
+      love.graphics.draw(hero.animSprite,hero.x,hero.y,0,-1,1,hero.animSprite:getWidth()/2,hero.animSprite:getHeight()/2)
+      love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,-1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
+    end
+  elseif hero.state == "run" then
+    if hero.direction == "right" then
+      love.graphics.draw(runSheet,hero.animSprite,hero.x,hero.y,0,1,1,73/2,79/2)
+      love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
+    else
+      love.graphics.draw(runSheet,hero.animSprite,hero.x,hero.y,0,-1,1,73/2,79/2)
+      love.graphics.draw(hero.spritetop,hero.x,hero.y-20,hero.delta,1,-1,hero.sprite:getWidth()/2,hero.sprite:getHeight()/2)
+    end
   end
+  
+
   --love.graphics.setShader()
 
-  love.graphics.rectangle("fill",hero.x,hero.y,2,2)
+  --love.graphics.rectangle("fill",hero.x,hero.y,2,2)
   
-  --love.graphics.print("|",hero.x+hero.sprite:getWidth()/2,hero.y)
-  --love.graphics.print("|",hero.x-hero.sprite:getWidth()/2,hero.y)
-  --love.graphics.print("|",hero.x,hero.y + hero.sprite:getHeight()/2)
-  --love.graphics.print("|",hero.x,hero.y - hero.sprite:getHei ght()/2)
-  
-  love.graphics.rectangle("fill",hero.x,hero.y + hero.sprite:getHeight()/2,5,5)
-  love.graphics.rectangle("fill",hero.x,hero.y - hero.sprite:getHeight()/2,5,5)
-  love.graphics.rectangle("fill",hero.x + hero.sprite:getWidth()/2,hero.y,5,5)
-  love.graphics.rectangle("fill",hero.x - hero.sprite:getWidth()/2,hero.y,5,5)
-  
-  --love.graphics.print("<-4",oldHeroX,oldHeroY)
-  
+  --love.graphics.rectangle("fill",hero.x,hero.y + hero.sprite:getHeight()/2,5,5)
+  --love.graphics.rectangle("fill",hero.x,hero.y - hero.sprite:getHeight()/2,5,5)
+  --love.graphics.rectangle("fill",hero.x + hero.sprite:getWidth()/2,hero.y,5,5)
+  --love.graphics.rectangle("fill",hero.x - hero.sprite:getWidth()/2,hero.y,5,5)
   
 end
 
@@ -49,6 +54,8 @@ function initHero()
   
   hero = {}
   hero.sprite = imgChara
+  hero.state = "idle"
+  hero.animSprite = imgChara
   hero.spritetop = imgCharatop 
   hero.delta = 0
   hero.direction = "right"
@@ -57,12 +64,11 @@ function initHero()
   hero.y = 50
   hero.vx = 0
   hero.vy = 0
-  hero.life = 100
-  hero.lifeMax = 100
+  hero.life = 300
+  hero.lifeMax = 300
   hero.dead = false
   hero.reload = false
   hero.reloadTime = 10
-  hero.weapon = ""
   hero.bonus = {}
   
 end
@@ -72,7 +78,7 @@ function deplacementHero(dt)
   dtValue=dt
   
   oldHeroX = hero.x
-  oldHeroY = hero.y -2
+  oldHeroY = hero.y
   
   IDcollision = {}
   
@@ -103,17 +109,44 @@ function deplacementHero(dt)
   end
   
   if (isSolid(IDcollision[3],twoDimMap)) or (isSolid(IDcollision[4],twoDimMap)) then
+    if (isSolid(IDcollision[3],twoDimMap)) then
+      oldHeroY = hero.y - 3
+    end
+    if (isSolid(IDcollision[4],twoDimMap)) then
+      oldHeroY = hero.y + 3
+    end
     hero.y = oldHeroY
     hero.vy = 0
   else
     hero.y = hero.y + (hero.vy * dt)
   end
 
-  
-
   if isOnGround(hero) then
     hero.jump = false
   end  
+  
+  if hero.y + imgChara:getHeight() > screenHeight then
+    hero.jump = false
+    oldHeroY = hero.y - 3
+    hero.y = oldHeroY
+    hero.vy = 0
+  end
+  
+  if hero.y - imgChara:getHeight() < 0 then
+    oldHeroY = hero.y + 3
+    hero.y = oldHeroY
+    hero.vy = 0
+  end
+  
+  nextLevel()
+end
+
+function nextLevel() 
+  
+  if hero.y + imgChara:getHeight() > screenHeight and livingDrone <= 0 then
+    initNextLevel()
+  end
+  
 end
 
 function inputHero(dt)
@@ -132,10 +165,11 @@ function inputHero(dt)
   
   if love.keyboard.isDown("d") then
     animate(dt)
-  end
-  
-  if love.keyboard.isDown("q") then
+  elseif love.keyboard.isDown("q") then
     animate(dt)
+  else
+    hero.state = "idle"
+    hero.animSprite = imgChara
   end  
 end
 
@@ -149,23 +183,46 @@ function animate(dt)
     frameCounter = 0
   end
 
+  if currentFrame == 2 and isOnGround(hero) and played1 == false then
+    DecodeStep1= love.sound.newDecoder("sons/Footsteps/sd_footstep1_long.wav")
+    Step1 = love.audio.newSource(DecodeStep1,"stream")
+    love.audio.play(Step1)
+    played1 = true
+  end
+  
+  if currentFrame == 7 and isOnGround(hero) and played2 == false then
+    DecodeStep2= love.sound.newDecoder("sons/Footsteps/sd_footstep2_long.wav")
+    Step2 = love.audio.newSource(DecodeStep2,"stream")
+    love.audio.play(Step2)
+    played2 = true
+  end
+  
+  if currentFrame == 12 then
+    played1 = false
+    played2 = false
+  end
+  
   frameCounter = frameCounter + (15 * dt)
- 
-  --hero.sprite = runTexture[currentFrame]
+  hero.state = "run"
+  hero.animSprite = runTexture[currentFrame]
 end
 
 function jumpHero()
   if love.keyboard.isDown("space") then
     if hero.jump == false then
-      hero.vy = hero.vy - (55000 * dtValue)
+      hero.vy = hero.vy - (70000 * dtValue)
       hero.jump = true
+      DecodeJump = love.sound.newDecoder("sons/sd_character_jump.wav")
+      Jump = love.audio.newSource(DecodeJump,"stream")
+      love.audio.play(Jump)
+      Jump:setVolume(3)
     end
   end
 end
 
 function losingLife(dt)
   if hero.life >= 0 then
-      --hero.life =  hero.life - (3 * dt)
+      hero.life =  hero.life - (2 * dt)
   end
   if hero.life <= 0 then
     hero.dead = true
@@ -197,12 +254,13 @@ function shootHero(dt)
       end
     else
       xShoot = hero.x + 0
-      yShoot = hero.y - 25
+      yShoot = hero.y - 22
       createBullet(xShoot,yShoot,hero.delta) 
       hero.reload = true
       DecodeGunShoot= love.sound.newDecoder("sons/sd_gun_shot.wav")
       GunShoot = love.audio.newSource(DecodeGunShoot,"stream") 
       love.audio.play(GunShoot)
+      GunShoot:setVolume(0.7)
     end
   end
   
