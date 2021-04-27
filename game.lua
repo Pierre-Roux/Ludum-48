@@ -20,15 +20,17 @@ function loadGame()
   dangerFactor = 0
   love.audio.stop(MusiqueLoop)
   love.audio.play(MusiqueLoop)
-  MusiqueStart:setVolume(0.5)
+  MusiqueStart:setVolume(0.4)
   shader = love.graphics.newShader(shader_code)
 end
 
 function updateGame(dt)
-  if not MusiqueStart:isPlaying() then
-    love.audio.play(MusiqueLoop)
-  end
+
   if playState == "play" then
+    if not MusiqueStart:isPlaying() then
+      love.audio.play(MusiqueLoop)
+    end
+    
     -- Camera
     camera.x = (hero.x - 1280/2)
     camera.y = (hero.y - 720/2)
@@ -40,6 +42,7 @@ function updateGame(dt)
     updateEnnemis(dt)
     if hero.dead == true then
       playState = "scoreboard"
+      loadScoreBoard()
     end
   end
   if playState == "scoreboard" then
@@ -86,9 +89,6 @@ end
 function keypressedGame(key)
   if playState == "play" then
     jumpHero()
-    if key == "r" then
-      playState = "scoreboard"
-    end
   end
   if playState == "scoreboard" then
     if key == "space" then

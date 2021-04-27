@@ -47,9 +47,16 @@ end
 function initEnnemis(dangerFactor)
   ennemis = {}
   livingDrone = 0
-  nbDrone = 10 
+  nbDrone = 10
+  xSpawn = 0
+  ySpawn = 0
   for i=1, nbDrone do
-    createDrone(math.random(screenWidth*5),math.random(screenHeight))
+    xSpawn = math.random(screenWidth*5)
+    while xSpawn < (screenWidth*2) and xSpawn > (screenWidth*3) do
+      xSpawn = math.random(screenWidth*5)
+    end
+    ySpawn = math.random(screenHeight)
+    createDrone(xSpawn ,ySpawn)
   end
 
 end

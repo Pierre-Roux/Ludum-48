@@ -22,7 +22,8 @@ function love.load()
   love.window.setMode(1280, 720)
   screenWidth = love.graphics.getWidth()
   screenHeight = love.graphics.getHeight()
-  
+  font = love.graphics.newFont("Merchant_Copy.ttf",20)
+  love.graphics.setFont(font)
   if gameState == "Menu" then
     loadMenu()
   end

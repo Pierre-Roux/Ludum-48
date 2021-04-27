@@ -15,7 +15,7 @@ end
 function drawHero()
     
   love.graphics.setShader(heroShader)
-  
+    
   if hero.state == "idle" then
     if hero.direction == "right" then
       love.graphics.draw(hero.animSprite,hero.x,hero.y,0,1,1,hero.animSprite:getWidth()/2,hero.animSprite:getHeight()/2)
@@ -64,8 +64,8 @@ function initHero()
   hero.y = 50
   hero.vx = 0
   hero.vy = 0
-  hero.life = 300
-  hero.lifeMax = 300
+  hero.life = 50
+  hero.lifeMax = 50
   hero.dead = false
   hero.reload = false
   hero.reloadTime = 10
@@ -222,7 +222,7 @@ end
 
 function losingLife(dt)
   if hero.life >= 0 then
-      hero.life =  hero.life - (2 * dt)
+      --hero.life =  hero.life - (2 * dt)
   end
   if hero.life <= 0 then
     hero.dead = true
@@ -233,7 +233,7 @@ function aim()
   x, y = love.mouse.getPosition()
   X = x + hero.x - screenWidth/2
   Y = y + hero.y - screenHeight/2
-  hero.delta = math.angle(X,Y,hero.x-30,hero.y-30) + 3
+  hero.delta = math.angle(X,Y,hero.x-30,hero.y) + 3
   if hero.delta >= 1.5 and hero.delta <= 4.5 then
     hero.direction = "left"
   else

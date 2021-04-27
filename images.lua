@@ -12,8 +12,11 @@ title[63] = love.graphics.newImage("images/title_4.png")
 title[64] = love.graphics.newImage("images/title_5.png")
 title[65] = love.graphics.newImage("images/title_1.png")
 
---fade
+--scoreboard
 
+gameover = love.graphics.newImage("images/gameover.png")
+
+--fade
 black = love.graphics.newImage("images/black.png")
 
 --BG

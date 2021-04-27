@@ -11,6 +11,9 @@ MusiqueMenuStart = love.audio.newSource(DecodeMusiqueMenuStart,"stream")
 DecodeMusiqueMenuLoop= love.sound.newDecoder("sons/music_menu_loop.ogg")
 MusiqueMenuLoop = love.audio.newSource(DecodeMusiqueMenuLoop,"stream")
 
+DecodeMusiqueScore= love.sound.newDecoder("sons/sd_menu_black_screen_of_death_wind.wav")
+MusiqueMenuScore = love.audio.newSource(DecodeMusiqueScore,"stream")
+
 --bruit
 
 DecodeGroundImpact= love.sound.newDecoder("sons/sd_character_impact_ground_2.wav")
