@@ -71,6 +71,11 @@ function partialInitHero()
     hero.y = currentMapH - 200
   end
   
+  if hero.directionMap == "center" then
+    hero.x = currentMapW/2
+    hero.y = 50
+  end
+  
   hero.vx = 0
   hero.vy = 0
   hero.reload = false
@@ -174,6 +179,7 @@ end
 
 function nextLevel() 
   if hero.y + imgChara:getHeight() > currentMapH and livingMobs <= 0 then
+    hero.directionMap = "center"
     initNextLevel()
   elseif hero.x - imgChara:getWidth() < 0 and livingMobs <= 0 then
     hero.directionMap = "left"

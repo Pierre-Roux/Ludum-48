@@ -95,12 +95,6 @@ end
 function keypressedGame(key)
   if playState == "play" then
     jumpHero()
-    if key == "a" then
-      twoDimMap = twoDimMap -1
-    end
-    if key == "e" then
-      twoDimMap = twoDimMap +1
-    end
     if key == "x" then
       hero.weapon = "rifle"
     end
