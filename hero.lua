@@ -1,13 +1,18 @@
-function loadHero()
+function partialLoadHero()
+  partialInitHero()
+end
+
+function fullLoadHero()
   initHero()
 end
 
 function updateHero(dt)
   deplacementHero(dt)
   losingLife(dt) 
+  inputHero(dt)
+  shootHero(dt,hero.weapon)
   aim()
 end
-
 
   heroShader = love.graphics.newShader("shaderTest.fs")
 
@@ -46,6 +51,31 @@ function drawHero()
   
 end
 
+function partialInitHero()
+  dtValue = 0
+  frameCounter = 0
+  currentFrame = 1
+  
+  hero.state = "idle"
+  hero.delta = 0
+  hero.direction = "right"
+  hero.jump = false
+  
+  if hero.directionMap == "right" then
+    hero.x = 200
+    hero.y = currentMapH - 200
+  end
+  
+  if hero.directionMap == "left" then
+    hero.x = currentMapW - 200
+    hero.y = currentMapH - 200
+  end
+  
+  hero.vx = 0
+  hero.vy = 0
+  hero.reload = false
+end
+
 function initHero()
   
   dtValue = 0
@@ -60,7 +90,7 @@ function initHero()
   hero.delta = 0
   hero.direction = "right"
   hero.jump = false
-  hero.x = screenWidth/2 + 2*(1280)
+  hero.x = currentMapW/2
   hero.y = 50
   hero.vx = 0
   hero.vy = 0
@@ -70,7 +100,8 @@ function initHero()
   hero.reload = false
   hero.reloadTime = 10
   hero.bonus = {}
-  
+  hero.weapon = "gun"
+  hero.directionMap = ""
 end
 
 function deplacementHero(dt)
@@ -82,11 +113,11 @@ function deplacementHero(dt)
   
   IDcollision = {}
   
-  if hero.x + imgChara:getWidth() < screenWidth*5 and hero.x - imgChara:getWidth() > 0 and hero.y + imgChara:getHeight() < screenHeight and hero.y - imgChara:getHeight() > 0 then
-    IDcollision[1] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x + hero.sprite:getWidth()/2)/32 +1)]
-    IDcollision[2] = twoDimMap[math.floor(hero.y/32+1)][math.floor((hero.x - hero.sprite:getWidth()/2)/32 +1)]
-    IDcollision[3] = twoDimMap[math.floor((hero.y + hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
-    IDcollision[4] = twoDimMap[math.floor((hero.y - hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
+  if hero.x + imgChara:getWidth() < currentMapW and hero.x - imgChara:getWidth() > 0 and hero.y + imgChara:getHeight() < currentMapH and hero.y - imgChara:getHeight() > 0 then
+    IDcollision[1] = currentMap[math.floor(hero.y/32+1)][math.floor((hero.x + hero.sprite:getWidth()/2)/32 +1)]
+    IDcollision[2] = currentMap[math.floor(hero.y/32+1)][math.floor((hero.x - hero.sprite:getWidth()/2)/32 +1)]
+    IDcollision[3] = currentMap[math.floor((hero.y + hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
+    IDcollision[4] = currentMap[math.floor((hero.y - hero.sprite:getHeight()/2)/32+1)][math.floor(hero.x/32+1)]
   end
   
   if hero.vx > 0 then
@@ -101,18 +132,18 @@ function deplacementHero(dt)
     end
   end
   
-  if (isSolid(IDcollision[1],twoDimMap)) or (isSolid(IDcollision[2],twoDimMap)) then
+  if (isSolid(IDcollision[1],currentMap)) or (isSolid(IDcollision[2],currentMap)) then
     hero.x = hero.x - (hero.vx * dt)
     hero.vx = 0
   else
     hero.x = hero.x + (hero.vx * dt)
   end
   
-  if (isSolid(IDcollision[3],twoDimMap)) or (isSolid(IDcollision[4],twoDimMap)) then
-    if (isSolid(IDcollision[3],twoDimMap)) then
+  if (isSolid(IDcollision[3],currentMap)) or (isSolid(IDcollision[4],currentMap)) then
+    if (isSolid(IDcollision[3],currentMap)) then
       oldHeroY = hero.y - 3
     end
-    if (isSolid(IDcollision[4],twoDimMap)) then
+    if (isSolid(IDcollision[4],currentMap)) then
       oldHeroY = hero.y + 3
     end
     hero.y = oldHeroY
@@ -125,7 +156,7 @@ function deplacementHero(dt)
     hero.jump = false
   end  
   
-  if hero.y + imgChara:getHeight() > screenHeight then
+  if hero.y + imgChara:getHeight() > currentMapH then
     hero.jump = false
     oldHeroY = hero.y - 3
     hero.y = oldHeroY
@@ -142,9 +173,14 @@ function deplacementHero(dt)
 end
 
 function nextLevel() 
-  
-  if hero.y + imgChara:getHeight() > screenHeight and livingDrone <= 0 then
+  if hero.y + imgChara:getHeight() > currentMapH and livingMobs <= 0 then
     initNextLevel()
+  elseif hero.x - imgChara:getWidth() < 0 and livingMobs <= 0 then
+    hero.directionMap = "left"
+    nextMapL()
+  elseif hero.x + imgChara:getWidth() > currentMapW and livingMobs <= 0 then
+    hero.directionMap = "right"
+    nextMapR()
   end
   
 end
@@ -210,7 +246,7 @@ end
 function jumpHero()
   if love.keyboard.isDown("space") then
     if hero.jump == false then
-      hero.vy = hero.vy - (70000 * dtValue)
+      hero.vy = hero.vy - (65000 * dtValue)
       hero.jump = true
       DecodeJump = love.sound.newDecoder("sons/sd_character_jump.wav")
       Jump = love.audio.newSource(DecodeJump,"stream")
@@ -241,28 +277,70 @@ function aim()
   end
 end
 
-function shootHero(dt)
+function shootHero(dt,weapon)
   local xShoot = 0
   local yShoot = 0
   if love.mouse.isDown(1) then
-    if hero.reload == true then
-      if hero.reloadTime <= 0 then
-        hero.reload = false
-        hero.reloadTime = 6
+    
+    if weapon == "rifle" then
+      if hero.reload == true then
+        if hero.reloadTime <= 0 then
+          hero.reload = false
+          hero.reloadTime = 6
+        else
+          hero.reloadTime = hero.reloadTime - (50*dt)
+        end
       else
-        hero.reloadTime = hero.reloadTime - (50*dt)
+        xShoot = hero.x + 0
+        yShoot = hero.y - 22
+        createBullet(xShoot,yShoot,hero.delta) 
+        hero.reload = true
+        DecodeGunShoot= love.sound.newDecoder("sons/sd_gun_shot.wav")
+        GunShoot = love.audio.newSource(DecodeGunShoot,"stream") 
+        love.audio.play(GunShoot)
+        GunShoot:setVolume(0.7)
       end
-    else
-      xShoot = hero.x + 0
-      yShoot = hero.y - 22
-      createBullet(xShoot,yShoot,hero.delta) 
-      hero.reload = true
-      DecodeGunShoot= love.sound.newDecoder("sons/sd_gun_shot.wav")
-      GunShoot = love.audio.newSource(DecodeGunShoot,"stream") 
-      love.audio.play(GunShoot)
-      GunShoot:setVolume(0.7)
     end
+    
+    if weapon == "gun" then
+      if hero.reload == true then
+        if hero.reloadTime <= 0 then
+          hero.reload = false
+          hero.reloadTime = 15
+        else
+          hero.reloadTime = hero.reloadTime - (50*dt)
+        end
+      else
+        xShoot = hero.x + 0
+        yShoot = hero.y - 22
+        createBullet(xShoot,yShoot,hero.delta) 
+        hero.reload = true
+        DecodeGunShoot= love.sound.newDecoder("sons/sd_gun_shot.wav")
+        GunShoot = love.audio.newSource(DecodeGunShoot,"stream") 
+        love.audio.play(GunShoot)
+        GunShoot:setVolume(0.7)
+      end
+    end
+    
+    if weapon == "machinegun" then
+      if hero.reload == true then
+        if hero.reloadTime <= 0 then
+          hero.reload = false
+          hero.reloadTime = 1.5
+        else
+          hero.reloadTime = hero.reloadTime - (50*dt)
+        end
+      else
+        xShoot = hero.x + 0
+        yShoot = hero.y - 22
+        createBullet(xShoot,yShoot,hero.delta) 
+        hero.reload = true
+        DecodeGunShoot= love.sound.newDecoder("sons/sd_gun_shot.wav")
+        GunShoot = love.audio.newSource(DecodeGunShoot,"stream") 
+        love.audio.play(GunShoot)
+        GunShoot:setVolume(0.7)
+      end
+    end
+    
   end
-  
-
 end

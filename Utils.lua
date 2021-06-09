@@ -1,7 +1,7 @@
 function isOnGround(entity) 
-  if entity.x + imgChara:getWidth() < screenWidth*5 and entity.x - imgChara:getWidth() > 0 and entity.y + imgChara:getHeight() < screenHeight and entity.y - imgChara:getHeight() > 0 then
-    ID = twoDimMap[math.floor((entity.y + imgChara:getHeight()/2+5)/32)+1][math.floor(entity.x/32)+1]
-    if isSolid(ID,twoDimMap) then
+  if entity.x + imgChara:getWidth() < currentMapW and entity.x - imgChara:getWidth() > 0 and entity.y + imgChara:getHeight() < currentMapH and entity.y - imgChara:getHeight() > 0 then
+    ID = currentMap[math.floor((entity.y + imgChara:getHeight()/2+5)/32)+1][math.floor(entity.x/32)+1]
+    if isSolid(ID,currentMap) then
       return true
     else
       return false
@@ -45,7 +45,6 @@ function turnOneDimTableToTwoDimTable(oneDimTable, nbRows, nbCols)
   for row = 1, nbRows do
     table.insert(twoDimTable, {})
     for col = 1, nbCols do
-      --print(twoDimTable[row][col])
       twoDimTable[row][col] = oneDimTable[(row-1)*nbCols + col]
     end
   end

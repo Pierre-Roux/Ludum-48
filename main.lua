@@ -14,11 +14,11 @@ require("game")
 require("images")
 require("sons")
 
-gameState = "Menu"
+gameState = "Game"
 
 function love.load()
   
-  love.window.setTitle("AwesomeGame")
+  love.window.setTitle("EndlessSwarm")
   love.window.setMode(1280, 720)
   screenWidth = love.graphics.getWidth()
   screenHeight = love.graphics.getHeight()

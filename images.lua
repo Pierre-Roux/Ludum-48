@@ -42,7 +42,7 @@ imgDrone = love.graphics.newImage("images/drone.png")
 imgBullet = love.graphics.newImage("images/bullet.png")
 imgMuzzlefx = love.graphics.newImage("images/muzzlefx.png")
 
-ExploSheet = love.graphics.newImage("images/explosion_sheet.png")
+ExploDroneSheet = love.graphics.newImage("images/explosion_sheet.png")
 
---ExploTexture = SplitSheet(ExploSheet,73,79)
+ExploDroneTexture = SplitSheet(ExploDroneSheet,76,62)
 

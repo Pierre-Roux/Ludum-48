@@ -29,6 +29,7 @@ function updateDrone(drone,dt)
       ennemis[i].id = ennemis[i].id - 1
     end
     globalDroneID = globalDroneID - 1
+    createDieAnimation(drone.x,drone.y,"drone")
     DecodeDronedie = love.sound.newDecoder("sons/sd_drone_explosion.wav")
     Dronedie = love.audio.newSource(DecodeDronedie,"stream")
     love.audio.play(Dronedie)

@@ -18,9 +18,9 @@ function updateShoot(dt)
           break
         end 
       end
-      if tir.x + tir.sprite:getWidth() < screenWidth*5 and tir.x - tir.sprite:getWidth() > 0 and tir.y + tir.sprite:getHeight() < screenHeight and tir.y - tir.sprite:getHeight() > 0 then
-        local IDcollision = twoDimMap[math.floor(tir.y/32+1)][math.floor(tir.x/32 +1)]
-        if (isSolid(IDcollision,twoDimMap)) then
+      if tir.x + tir.sprite:getWidth() < currentMapW and tir.x - tir.sprite:getWidth() > 0 and tir.y + tir.sprite:getHeight() < currentMapH and tir.y - tir.sprite:getHeight() > 0 then
+        local IDcollision = currentMap[math.floor(tir.y/32+1)][math.floor(tir.x/32 +1)]
+        if (isSolid(IDcollision,currentMap)) then
           tir.collide = true
         end
       else

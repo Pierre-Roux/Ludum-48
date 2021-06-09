@@ -28,5 +28,8 @@ Wound = love.audio.newSource(DecodeWound,"stream")
 DecodeSwarm= love.sound.newDecoder("sons/sd_drone_swarm_loop.wav")
 Swarm = love.audio.newSource(DecodeSwarm,"stream")
 
+DecodeDroneExplo= love.sound.newDecoder("sons/sd_drone_explosion.wav")
+DroneExplosion = love.audio.newSource(DecodeDroneExplo,"stream")
+
 DecodeFade= love.sound.newDecoder("sons/sd_menu_fx.wav")
 Fade = love.audio.newSource(DecodeFade,"stream")

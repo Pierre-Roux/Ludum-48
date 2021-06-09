@@ -8,11 +8,12 @@ require("shaders")
 require("ui")
 
 playState = "play"
+Level = 1
 
 function loadGame()
   initMap()
   loadGlobals()
-  loadHero()
+  fullLoadHero()
   loadShoot()
   loadEnnemis()
   Level = 1
@@ -37,9 +38,14 @@ function updateGame(dt)
     -- Hero and ennemies
     updateShoot(dt)
     updateHero(dt)
-    inputHero(dt)
-    shootHero(dt)
     updateEnnemis(dt)
+    
+    if livingMobs == 0 and tileTypes[13] ~= "" then
+      for i=13,24 do
+        tileTypes[i] = ""
+      end
+    end
+    
     if hero.dead == true then
       playState = "scoreboard"
       loadScoreBoard()
@@ -89,6 +95,21 @@ end
 function keypressedGame(key)
   if playState == "play" then
     jumpHero()
+    if key == "a" then
+      twoDimMap = twoDimMap -1
+    end
+    if key == "e" then
+      twoDimMap = twoDimMap +1
+    end
+    if key == "x" then
+      hero.weapon = "rifle"
+    end
+    if key == "w" then
+      hero.weapon = "gun"
+    end
+    if key == "c" then
+      hero.weapon = "machinegun"
+    end
   end
   if playState == "scoreboard" then
     if key == "space" then
@@ -103,22 +124,38 @@ function mousepressedGame(X,Y,key)
 end
 
 function drawBackground(img)
-  local xbg = 0
-  for i=1,5 do
-    love.graphics.draw(img,xbg,0,0)
-    xbg = xbg + 1280
-  end
+  love.graphics.draw(img,0,0,0)
+end
+
+function openDoor()
+  
 end
 
 function initNextLevel()
   Level = Level + 1
-  dangerFactor = dangerFactor + 5
   initMap()
   loadGlobals()
-  loadHero()
+  partialLoadHero()
   loadShoot()
-  loadEnnemis(dangerFactor)
+  loadEnnemis()
+end
 
+function nextMapL()
+  twoDimMap = twoDimMap - 1
+  initPartialMap()
+  loadGlobals()
+  partialLoadHero()
+  loadShoot()
+  loadEnnemis()
+end
+
+function nextMapR()
+  twoDimMap = twoDimMap + 1
+  initPartialMap()
+  loadGlobals()
+  partialLoadHero()
+  loadShoot()
+  loadEnnemis()
 end
 
 function loadGlobals()
