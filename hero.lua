@@ -61,6 +61,16 @@ function partialInitHero()
   hero.direction = "right"
   hero.jump = false
   
+  currentMap = mapsTable[twoDimMap] 
+  local rowlenght = #currentMap
+  local collenght = #currentMap[1]
+  
+  currentMapH = rowlenght*TILE_HEIGHT
+  currentMapW = collenght*TILE_WIDTH
+  
+  print(currentMapH)
+  print(currentMapW)
+  
   if hero.directionMap == "right" then
     hero.x = 200
     hero.y = currentMapH - 200

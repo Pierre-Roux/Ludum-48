@@ -46,7 +46,7 @@ function initPartialMap()
     tileTypes[i] = "fill"
   end
   
-  --doortwoDimMap] 
+  --doortwoDimMap
   local rowlenght = #currentMap
   local collenght = #currentMap[1]
   
@@ -73,6 +73,15 @@ function initMap()
   populatePanelTables()
   
   mapsTable = {}
+  
+  -- initialisation de la variable qui va check si les maps on été faites ou pas
+  doneMaps = {}
+  doneMaps[1] = false
+  doneMaps[2] = false
+  doneMaps[3] = false
+  doneMaps[4] = false
+  doneMaps[5] = false
+  
   
   table.insert(mapsTable, leftPanelsTable[ math.random( #leftPanelsTable ) ])
   table.insert(mapsTable, otherPanelsTable[ math.random( #otherPanelsTable ) ])

@@ -26,6 +26,7 @@ function updateEnnemis(dt)
     Swarm:setVolume(0.30)
   else
     love.audio.stop(Swarm)
+    doneMaps[twoDimMap] = true
   end
 
   -- Boucle de gestion des mobs
@@ -59,7 +60,7 @@ function updateEnnemis(dt)
       end
       anim.frameCounter = 0
     end
-    anim.frameCounter = anim.frameCounter + (15 * dt)
+    anim.frameCounter = anim.frameCounter + (10 * dt)
   end
 end
 
@@ -74,10 +75,13 @@ function initEnnemis()
   nbDrone = 2 + Level
   xSpawn = 0
   ySpawn = 0
-  for i=1, nbDrone do
+  
+  if doneMaps[twoDimMap] == false then
+    for i=1, nbDrone do
     xSpawn = math.random(screenWidth)
     ySpawn = math.random(screenHeight)
     createDrone(xSpawn ,ySpawn)
+    end
   end
 
 end
